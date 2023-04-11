@@ -1,35 +1,54 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<title>OpenWeatherMap</title>
-	<style>
-		body {
-			font-family: sans-serif;
-		}
-	</style>
-</head>
-<body>
-	<h1>Current Weather in Chennai</h1>
-	<div id="weather"></div>
+  <head>
+    <title>Weather App by ATM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      
+      body {
+        font-family: sans-serif;
+        text-align: center;
+      }
 
-	<script>
-		const apiKey = "b00407ed839b2e37b2f57d6f9bb5725f";
-		const city = "Chennai";
+      h1 {
+        font-size: 2em;
+        margin-top: 0;
+      }
 
-		const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+      img {
+        width: 150px;
+        height: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Current Weather in Chennai</h1>
+    <img src="https://thumbs.dreamstime.com/b/namma-chennai-letters-icon-namma-chennai-aka-our-chennai-letters-as-icon-chennai-marina-as-landmark-211052024.jpg" alt="Chennai">
+    <div id="weather"></div>
+    <div id="datetime"></div>
 
-		fetch(url)
-			.then(response => response.json())
-			.then(data => {
-				const temperature = data.main.temp;
-				const description = data.weather[0].description;
+    <script>
+     
+      const apiKey = "b00407ed839b2e37b2f57d6f9bb5725f";
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Chennai&appid=${apiKey}&units=metric`;
 
-				document.getElementById("weather").innerHTML = `Temperature: ${temperature} &deg;C<br> Description: ${description}`;
-			})
-			.catch(error => {
-				console.error(error);
-				document.getElementById("weather").innerHTML = "Error getting weather data";
-			});
-	</script>
-</body>
+      
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const weatherElement = document.getElementById("weather");
+          const temperature = Math.round(data.main.temp);
+          const description = data.weather[0].description;
+          const message = `It's currently ${temperature} &deg;C and ${description} in Chennai.`;
+          weatherElement.innerHTML = message;
+        });
+
+      
+      const datetimeElement = document.getElementById("datetime");
+      const datetime = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+      const datetimeString = datetime.toLocaleDateString('en-US', options);
+      datetimeElement.innerHTML = datetimeString;
+    </script>
+  </body>
 </html>
