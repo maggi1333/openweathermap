@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OpenWeatherMap</title>
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+<body>
+	<h1>Current Weather in Chennai</h1>
+	<div id="weather"></div>
+
+	<script>
+		const apiKey = "b00407ed839b2e37b2f57d6f9bb5725f";
+		const city = "Chennai";
+
+		const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+		fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				const temperature = data.main.temp;
+				const description = data.weather[0].description;
+
+				document.getElementById("weather").innerHTML = `Temperature: ${temperature} &deg;C<br> Description: ${description}`;
+			})
+			.catch(error => {
+				console.error(error);
+				document.getElementById("weather").innerHTML = "Error getting weather data";
+			});
+	</script>
+</body>
+</html>
